@@ -47,4 +47,29 @@ foreach ($client->parseEvents() as $event) {
             error_log("Unsupporeted event type: " . $event['type']);
             break;
     }
+
+    $replyToken = $client->parseEvents()[0]['replyToken'];
+    
+    $profil = $client->profil($userId);
+    $message = $client->parseEvents()[0]['message'];
+    $pesan_datang = $message['text'];
+
+    if($message['type'] == 'text') {
+        if($pesan_datang == 'ahay') {
+            $response = array(
+                            'replyToken' => $replyToken,
+                            'messagges' => array(
+                                    array(
+                                            'type' => 'text',
+                                            'text' => 'Halo '.$profil->displayName.
+                                        )
+                                )    
+                        );
+        }
+    }
+
+    $result =  json_encode($balas);
+    file_put_contents('./balasan.json',$result);
+    $client->replyMessage($balas);
+
 };
