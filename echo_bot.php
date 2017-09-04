@@ -22,7 +22,7 @@ $channelAccessToken = 'GC//4vRrioXV3WWDLxomtTnv3uFvk4p60P+rkiGxyXE8Bc+93Z2cFvBaa
 $channelSecret = '59870a04061d8d1e920aa07fd60de3dc';
 
 $client = new LINEBotTiny($channelAccessToken, $channelSecret);
-foreach ($client->parseEvents() as $event) {
+/*foreach ($client->parseEvents() as $event) {
     switch ($event['type']) {
         case 'message':
             $message = $event['message'];
@@ -48,28 +48,30 @@ foreach ($client->parseEvents() as $event) {
             break;
     }
 
-    $replyToken = $client->parseEvents()[0]['replyToken'];
-    
-    $profil = $client->profil($userId);
-    $message = $client->parseEvents()[0]['message'];
-    $pesan_datang = $message['text'];
+};*/
 
-    if($message['type'] == 'text') {
-        if($pesan_datang == 'ahay') {
-            $response = array(
-                            'replyToken' => $replyToken,
-                            'messagges' => array(
-                                    array(
-                                            'type' => 'text',
-                                            'text' => 'Halo '.$profil->displayName.
-                                        )
-                                )    
-                        );
-        }
-    }
 
-    $result =  json_encode($balas);
-    file_put_contents('./balasan.json',$result);
-    $client->replyMessage($balas);
+$replyToken = $client->parseEvents()[0]['replyToken'];
 
-};
+$profil = $client->profil($userId);
+$message = $client->parseEvents()[0]['message'];
+$pesan_datang = $message['text'];
+
+$balas = array(
+    'replyToken' => $replyToken, 
+    'messages' => array(
+            array(
+                    'type' => 'text',
+                    'text' => 'Apaan?'
+                )
+        ));
+
+if($message['type'] == 'text') {
+    if($pesan_datang == '2') {
+        $balas['messages'][0]['text'] = 'Apaan?';
+}
+
+
+$result =  json_encode($balas);
+file_put_contents('./balasan.json',$result);
+$client->replyMessage($balas);
